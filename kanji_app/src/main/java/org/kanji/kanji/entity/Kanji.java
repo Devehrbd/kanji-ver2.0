@@ -1,9 +1,12 @@
 package org.kanji.kanji.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,16 +21,23 @@ public class Kanji {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int kanji_id;
+	@Column(name = "kanji_id")
+	private int kanjiId;
 	
+	@Column(name = "kanji_character")
+	private String kanjiCharacter;
 	
-	private String kanji_character;
+	@Column(name = "kanji_soundMean")
+	private String kanjiSoundMean;
 	
-	private String kanji_soundMean;
+	@Column(name = "jp_sound")
+	private String jpSound;
 	
-	private String jp_sound;
+	@Column(name = "jp_mean")
+	private String jpMean;
 	
-	private String jp_mean;
+	@Column(name = "jp_grade")
+	private String jpGrade;
 	
 	
 }	

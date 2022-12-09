@@ -1,4 +1,7 @@
-package org.kanji.course.entity;
+package org.kanji.favorites.entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.kanji.kanji.entity.Kanji;
 import org.kanji.member.entity.Member;
 
 import lombok.AllArgsConstructor;
@@ -18,18 +24,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Course {
+public class Favorites {
 	
 	@Id
-	@Column(name = "course_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int courseId;
+	@Column(name = "favorites_id")
+	private int FavoritesId;
 	
 	@ManyToOne
 	@JoinColumn(name ="member_id")
 	private Member member;
 	
-	@Column(name = "course_period")
-	private int coursePeriod;
-	
-}
+	@ManyToOne
+	@JoinColumn(name ="kanji_id")
+	private Kanji kanji;
+}	

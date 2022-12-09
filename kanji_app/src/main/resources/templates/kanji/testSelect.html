@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
+
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+   	font-style: normal;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+/*  1번째  */
+body{
+	font-family : Nanum Gothic;
+	margin : 0 auto;
+	color : #6e6e6e	;
+
+}
+
+main{
+	width : 70%;
+	min-width : 1200px;
+	height : 90vh;
+	min-height : 900px;
+	
+	margin : 0 auto;
+	text-align : center;
+}
+
+/*  2번째  */
+.kanji_testSelect_top_wrap{
+	width : 100%;
+	height : 40%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	font-family: 'KOTRAHOPE';
+	font-size : 35px;
+}
+.kanji_testSelect_center_wrap{
+	width : 100%;
+	height : 50%;
+	color : white;
+	font-size : 35px;
+	font-family: 'KOTRAHOPE';
+}
+/*  3번째 - top_wrap */
+
+
+/*  3번째 - center_wrap */
+
+.kanji_testSelect_list_wrap{
+	width : 100%;
+	height : 70%;
+	
+	display : flex;
+	justify-content : space-around;
+	align-items: center;
+	
+}
+.kanji_testSelect_character{
+	width : 40%;
+	height : 100%;
+	float : left;
+
+	background : #90AFFF;
+	border-radius : 20px;
+	cursor : pointer;
+
+}
+
+.kanji_testSelect_character div{
+	width : 100%;
+	height : 100%;
+			
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.kanji_testSelect_soundMean{
+	width : 40%;
+	height : 100%;
+	float : left;
+	
+	background : #6496FF;
+	border-radius : 20px;
+	cursor : pointer;
+}
+
+.kanji_testSelect_soundMean div{
+	width : 100%;
+	height : 100%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+.kanji_testSelect_backspace{
+	width : 100%;
+	height : 30%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	color : black;
+	font-size : 30px;
+}
+
+.kanji_testSelect_backspace div{
+	width : 15%;
+	height : 40%;
+	
+	cursor : pointer;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+.kanji_testSelect_backspace div:hover{
+	color : #bebebe;
+}
+.kanji_testSelect_character:hover{
+	background : #C3E7FA;
+}
+
+.kanji_testSelect_soundMean:hover{
+	background : #AECDFF;
+}
+</style>
+
+<meta charset="UTF-8">
+<title>Insert title heree</title>
+</head>
+<body>
+<main>
+	<div class="kanji_testSelect_top_wrap">
+		<span>어떤 방법으로 테스트를 해볼까요?</span>
+	</div>
+	<div class="kanji_testSelect_center_wrap">
+		<div class = "kanji_testSelect_list_wrap">
+			<div class = "kanji_testSelect_character" th:onclick="'location.href = \'' + @{/kanji/test(course_index=${course_index},type='character')} + '\''" >
+				<div>음훈을 보고 모양을 맞춰볼래요 !</div>
+			</div>
+			<div class = "kanji_testSelect_soundMean"th:onclick="'location.href = \'' + @{/kanji/test(course_index=${course_index},type='soundmean')} + '\''" >
+				<div>모양을 보고 음훈을 맞춰볼래요 !</div>
+			</div>
+		</div>
+		<div class="kanji_testSelect_backspace" >
+			<div th:onclick="'location.href = \'' + @{/kanji/list(course_index=${course_index})} + '\''">나중에 할래요 !</div>
+		</div>
+	</div>
+</main>
+</body>
+</html>

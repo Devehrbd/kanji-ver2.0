@@ -1,15 +1,13 @@
-package org.kanji.controller;
+package org.kanji.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.extern.log4j.Log4j2;
-
 @Controller
 @RequestMapping("/*")
-public class HomeController {
+public class CommonController {
 	@GetMapping("/main")
-	public void ex1() {
+	public void main() {
 	}
 }

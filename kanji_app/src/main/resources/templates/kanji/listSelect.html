@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+@font-face {
+	font-family: 'KOTRAHOPE';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*  1번째  */
+body {
+	font-family: Nanum Gothic;
+	margin: 0 auto;
+	color: #6e6e6e;
+}
+
+main {
+	width: 70%;
+	min-width: 1200px;
+	height: 90vh;
+	min-height: 900px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+/*  2번째  */
+.kanji_listSelect_top_wrap{
+	width : 100%;
+	height : 40%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	font-family: 'KOTRAHOPE';
+	font-size : 35px;
+}
+.kanji_listSelect_center_wrap{
+	width : 100%;
+	height : 50%;
+	color : white;
+	font-size : 35px;
+	font-family: 'KOTRAHOPE';
+}
+
+/*  3번째 - top_wrap  */
+
+
+/*  3번째 - center_wrap */
+.kanji_listSelect_list_wrap{
+	width : 100%;
+	height : 70%;
+	
+	display : flex;
+	justify-content : space-around;
+	align-items: center;
+	
+}
+
+.kanji_listSelect_today_kanji{
+	width : 40%;
+	height : 100%;
+	float : left;
+
+	background : #FF7878;
+	border-radius : 20px;
+	cursor : pointer;
+
+}
+
+.kanji_listSelect_today_kanji div{
+	width : 100%;
+	height : 100%;
+			
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.kanji_listSelect_favorite_kanji{
+	width : 40%;
+	height : 100%;
+	float : left;
+	
+	background : #FFBE3C;
+	border-radius : 20px;
+	cursor : pointer;
+}
+
+.kanji_listSelect_favorite_kanji div{
+	width : 100%;
+	height : 100%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+.kanji_listSelect_course_reselection_logout{
+	width : 100%;
+	height : 30%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	color : black;
+	font-size : 30px;
+}
+
+.kanji_listSelect_course_reselection_logout div{
+	width : 10%;
+	height : 40%;
+	
+	cursor : pointer;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	margin : 30px;
+	
+}
+
+.kanji_listSelect_course_reselection_logout div:hover{
+	color : #bebebe;
+}
+.kanji_listSelect_today_kanji:hover{
+	background : #FABEBE;
+}
+
+.kanji_listSelect_favorite_kanji:hover{
+	background : #FAEBCD;
+}
+
+
+</style>
+<meta charset="UTF-8">
+<title>Insert title heree</title>
+</head>
+<body>
+<main>
+	<div class="kanji_listSelect_top_wrap">
+		<span>원하시는 한자 리스트를 불러드릴게요!</span>
+	</div>
+	<div class="kanji_listSelect_center_wrap">
+		<div class = "kanji_listSelect_list_wrap">
+			<div class="kanji_listSelect_today_kanji" onclick="location.href='/kanji/listSelect2'">
+				<div>선택한 코스의 한자 리스트 !</div>
+			</div>
+			<div class="kanji_listSelect_favorite_kanji" onclick="location.href='/kanji/favoritesList'">
+				<div>즐겨찾기 추가한 한자 리스트 !</div>
+			</div>
+		</div>
+		<div class="kanji_listSelect_course_reselection_logout" >
+			<div onclick="location.href='/course/reselection'">코스 재선택</div>
+			<div onclick="location.href='/member/logout'"><span>로그아웃</span></div>
+		</div>
+	</div>
+</main>
+</body>
+</html>

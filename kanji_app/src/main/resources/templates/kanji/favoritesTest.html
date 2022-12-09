@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
+
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+   	font-style: normal;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+/*  1번째  */
+body{
+	font-family : Nanum Gothic;
+	margin : 0 auto;
+	color : #6e6e6e	;
+
+}
+
+main{
+	width : 70%;
+	min-width : 1200px;
+	height : 90vh;
+	min-height : 900px;
+	
+	margin : 0 auto;
+	text-align : center;
+}
+
+
+/*  2번째  */
+.kanji_test_top_wrap{
+	width : 100%;
+	height : 10%;
+	
+	display : flex;
+	justify-content: flex-end;
+	flex-direction : column;
+	align-items: center;
+	
+	font-family: 'KOTRAHOPE';
+	font-size : 35px;
+}
+.kanji_test_center_wrap{
+	width : 100%;
+	height : 90%;
+	position : relative;
+
+}
+
+
+
+/*  3번째 - top_wrap */
+
+/*  3번째 - center_wrap  */
+
+.problem_list{
+	position : absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+	display : none;
+	width : 80%;
+	height : 80%;
+	
+	border-radius : 100px;
+	box-shadow: 0px 0px 10px #000;
+
+}
+
+.mondai_list {
+	margin: 0 auto;
+	width : 50%;
+	height : 50%;
+
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	font-size : 50px;
+	color : black;
+}
+
+.seikai_list {
+	width : 100%;
+	height : 50%;
+	display : flex;
+	justify-content: space-around;
+	align-items: center;
+	
+	font-size : 30px;
+	color : black;
+
+}
+
+.seikai_list div{
+	cursor : pointer;
+}
+
+.seikai_list div:hover{
+	color : #bebebe;
+}
+
+.problem_o{
+	position : absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width : 80%;
+    height : 80%;
+	display : none;
+	
+	border-radius : 100px;
+	box-shadow: 0px 0px 10px #000;
+}
+
+.problem_o img, .problem_x img{
+	width : 100%;
+	height : 100%;
+	background : white;
+	border-radius : 100px;
+}
+
+.problem_x{
+	position : absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width : 80%;
+    height : 80%;
+	display : none;
+	
+	border-radius : 100px;
+	box-shadow: 0px 0px 10px #000;
+}
+.problem_complete_pass{
+	position : absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+
+	display : none;
+	width : 80%;
+	height : 80%;
+
+	color : black;
+	font-size : 35px;
+	font-family: 'KOTRAHOPE';
+}
+
+.problem_complete_text_pass{
+	position : absolute;
+	width : 100%;
+	height : 50%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.problem_complete_button_pass{	
+	position : absolute;
+	top : 50%;
+	width : 100%;
+	height : 50%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+
+}
+.problem_complete_button_pass span{
+	cursor:pointer;
+	
+}
+
+.problem_complete_notPass{
+	position : absolute;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+	display : none;
+	width : 80%;
+	height : 80%;
+	
+	color : black;
+	font-size : 35px;
+	font-family: 'KOTRAHOPE';
+
+}
+
+.problem_complete_text_notPass{
+	position : absolute;
+	width : 100%;
+	height : 50%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.problem_complete_button_notPass{	
+	position : absolute;
+	top : 50%;
+	width : 100%;
+	height : 50%;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+
+}
+.problem_complete_button_notPass span{
+	cursor:pointer;
+	
+}
+
+.problem_complete_button_pass span:hover{
+	color : #bebebe;
+}
+
+.problem_complete_button_notPass span:hover{
+	color : #bebebe;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script th:inline="javascript">
+
+
+$(document).ready(function(){
+    var items =  $(".seikai_list");
+
+    for(var i = 0; i < items.length; i++){
+    	
+    	var itemsChild = $(".seikai_list").eq(i).children();
+    	
+    	for(var j = 0; j < itemsChild.length; j++){
+
+            var idx = Math.floor(Math.random() * itemsChild.length -1) + 1;
+
+            var idx2 = Math.floor(Math.random() * itemsChild.length -1) + 1;
+
+            itemsChild.eq(idx).before(itemsChild.eq(idx2));
+    	};
+	};
+	
+	var problem = $(".problem_list").eq(0);
+	problem.css("display", "block");
+	
+	
+});
+
+var seikairitsu = 0;
+var total = 0;
+
+/*<![CDATA[*/
+$(function(){
+	$(".seikai").click(function(e){
+   	
+		seikairitsu += 1;
+		total += 1;	
+		console.log(seikairitsu/total);
+		
+	 	var a = $(".problem_list").last().index();
+
+   	 	if($(this).parent().parent().index() != a ){
+   			 
+    		$(this).parent().parent().css("display","none");
+    		$(".problem_o").css("display","block");
+    		$(".problem_o_img").attr("src","/images/correct.gif");
+    		
+    		setTimeout(() =>$(".problem_o").css("display","none"), 1000);
+    		setTimeout(() =>$(".problem_o_img").attr("src",""),1000);
+    		
+    		setTimeout(() =>$(this).parent().parent().next().css("display","block"), 1000);
+    	
+    	
+   	 	}else{
+   	 	
+   			$(this).parent().parent().css("display","none");
+   			$(".problem_o").css("display","block");
+   			$(".problem_o_img").attr("src","/images/correct.gif");
+   			
+   			setTimeout(() =>$(".problem_o").css("display","none"), 1000);
+   			setTimeout(() => complete(), 1000);
+   			
+   			console.log("끝");
+   		}
+	
+	});
+	
+	$(".kokai").click(function(e){
+		
+		total += 1;	
+		console.log(seikairitsu/total);
+		
+	 	var a = $(".problem_list").last().index();
+
+   	 	if($(this).parent().parent().index() != a ){
+   		 
+    		$(this).parent().parent().css("display","none");
+    		$(".problem_x").css("display","block");
+    		$(".problem_x_img").attr("src","/images/incorrect.gif");
+    		
+    		setTimeout(() =>$(".problem_x").css("display","none"), 1000);
+    		setTimeout(() =>$(".problem_x_img").attr("src",""),1000);
+    		
+    		setTimeout(() =>$(this).parent().parent().next().css("display","block"), 1000);
+    	    	
+   	 	}else{
+   	 		
+   	
+   			$(this).parent().parent().css("display","none");
+   			$(".problem_x").css("display","block");
+   			$(".problem_x_img").attr("src","/images/incorrect.gif");
+   			
+   			setTimeout(() =>$(".problem_x").css("display","none"), 1000);
+   			setTimeout(() => complete(), 1000);
+   			console.log("끝");
+   		}
+	
+	});
+	
+	$(".problem_complete_button_pass span").click(function(e){
+		var complete = /*[[${course_index}]]*/
+		location.href = "/kanji/listSelect";
+	});
+	
+	$(".problem_complete_button_notPass span").click(function(e){
+		var complete = /*[[${course_index}]]*/
+		location.href = "/kanji/favoritesList";
+	});
+});
+/*]]>*/
+
+function complete(){
+	
+	if(seikairitsu/total >= 0.8){
+		$(".problem_complete_text_pass").text(total + " 문제중에 " + seikairitsu + " 문제 맞췄어요 ! 테스트 통과 !");
+		$(".problem_complete_pass").css("display","block")
+
+	}else{
+		$(".problem_complete_text_notPass").text(total + " 문제중에 " + seikairitsu + " 문제 맞췄어요 ! 조금만 더 공부해봅시다 !");
+		$(".problem_complete_notPass").css("display","block")
+	}
+		
+}
+
+
+</script>
+<meta charset="UTF-8">
+<title>Insert title heree</title>
+</head>
+<body>
+<main>
+	<div class = "kanji_test_top_wrap">
+		<div>맞춰봅시다 !</div>
+	</div>
+
+	
+	<div class = "kanji_test_center_wrap">	
+		<div class = "problem_list" th:each ="list , i : ${kanji_list}">
+		
+			<div class = "mondai_list">
+				<div th:if="${type}=='character'" th:text="${list.kanjiSoundMean}"></div>
+				<div th:unless="${type}=='character'" th:text="${list.kanjiCharacter}"></div>
+			</div>
+			
+			<div class = "seikai_list">
+				<div id = "testlist" class = "seikai" th:if="${type}=='character'" th:text="${list.kanjiCharacter}"></div>
+				<div id = "testlist" class = "seikai" th:unless="${type}=='character'" th:text="${list.kanjiSoundMean}"></div>
+				<div id = "testlist" class = "kokai" th:text="${kokai1[i.index]}"></div>
+				<div id = "testlist" class = "kokai" th:text="${kokai2[i.index]}"></div>
+				<div id = "testlist" class = "kokai" th:text="${kokai3[i.index]}"></div>
+			</div>
+			<br>
+		</div>
+		<div class = "problem_o">
+			<img class = "problem_o_img">
+		</div>
+		<div class = "problem_x">
+			<img class = "problem_x_img">
+		</div>
+		<div class = "problem_complete_pass">
+			<div class = "problem_complete_text_pass"></div>
+			<div class = "problem_complete_button_pass"><span>리스트 선택으로 이동 !</span></div>
+		</div>
+		<div class = "problem_complete_notPass">
+			<div class = "problem_complete_text_notPass"></div>
+			<div class = "problem_complete_button_notPass"><span>다시 공부하기 !</span></div>
+		</div>
+	</div>	
+	
+	
+</main>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
+
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+   	font-style: normal;
+}
+
+
+.kanji_list_center_wrap::-webkit-scrollbar{
+	width : 8px;
+}
+
+.kanji_list_center_wrap::-webkit-scrollbar-thumb{
+    background: #FAA8A8;
+    border-radius: 25px;
+}
+
+.kanji_list_center_wrap::-webkit-scrollbar-track{
+    background-color: #FFF0F0;
+}
+
+/*  1번째  */
+body{
+	font-family : Nanum Gothic;
+	margin : 0 auto;
+	color : #6e6e6e	;
+
+}
+
+
+main{
+	width : 70%;
+	min-width : 1200px;
+	height : 90vh;
+	min-height : 900px;
+	
+	margin : 0 auto;
+	text-align : center;
+}
+
+/*  2번째  */
+.kanji_list_top_wrap{
+	width : 100%;
+	height : 15%;
+	
+	font-family: 'KOTRAHOPE';
+	font-size : 35px;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+.kanji_list_center_wrap{
+	margin:0 auto;
+	width : 60%;
+	height : 70%;
+	overflow : auto;
+}
+
+.kanji_list_bottom_wrap{
+	width : 100%;
+	height : 15%;
+	
+	font-family: 'KOTRAHOPE';
+	font-size : 35px;
+	color : black;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+/*  3번째 - top_wrap */
+
+/*  3번째 - center_wrap */
+.kanji_list_center_index{
+	width : 50%;
+	height : 70px;
+	float : left;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+.kanji_list_center_message{
+	width : 50%;
+	height : 70px;
+	float : left;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.kanji_list_center_wrap_wrap{
+	width : 50%;
+	height :  70px;
+	margin : 0 auto;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	border-radius : 20px;
+	cursor : pointer;
+}
+.kanji_list_center_wrap_wrap:hover{
+	background : #FFC0CB;
+}
+.kanji_list_center_wrap_wrap:hover .kanji_list_center_index,
+.kanji_list_center_wrap_wrap:hover .kanji_list_center_message{
+	color : white;
+}
+
+/*  3번째 - bottom_wrap */
+.kanji_list_bottom_wrap div:hover{
+	color : #bebebe;
+	cursor : pointer;
+}
+</style>
+
+
+<meta charset="UTF-8">
+<title>Insert title heree</title>
+</head>
+<body>
+<main>
+	<div class = "kanji_list_top_wrap">
+		<div>몇번째 한자리스트를 불러올까요 ? 선택해 주세요 !</div>
+	</div>
+	<div class = "kanji_list_center_wrap">	
+		<div th:each ="period, i : ${course_period}">
+			<div class = "kanji_list_center_wrap_wrap" th:onclick="'location.href = \'' + @{/kanji/list(course_index=${period})} + '\''">
+				<div class = "kanji_list_center_index" th:text="${period}+'번째 한자들'" ></div>
+				<div class = "kanji_list_center_message" th:text="${course_message[i.index]}"></div>		
+			</div>	
+		</div>
+	</div>	
+	<div class = "kanji_list_bottom_wrap">
+		<div th:onclick="'location.href = \'' + @{/kanji/listSelect} + '\''">리스트 선택 다시 할래요!</div>
+	</div>
+</main>
+</body>
+</html>

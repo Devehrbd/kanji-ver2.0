@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
+
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+   	font-style: normal;
+}
+
+.kanji_favoritesList_center_wrap::-webkit-scrollbar{
+	width : 8px;
+}
+
+.kanji_favoritesList_center_wrap::-webkit-scrollbar-thumb{
+    background: #FFDC37;
+    border-radius: 25px;
+}
+
+.kanji_favoritesList_center_wrap::-webkit-scrollbar-track{
+    background-color: #FAFAB4;
+}
+
+/*  1번째  */
+body{
+	font-family : Nanum Gothic;
+	margin : 0 auto;
+	color : #6e6e6e	;
+
+}
+
+main{
+	width : 70%;
+	min-width : 1200px;
+	height : 90vh;
+	min-height : 900px;
+	
+	margin : 0 auto;
+	text-align : center;
+}
+
+/*  2번째  */
+.kanji_favoritesList_top_wrap{
+	width : 100%;
+	height : 20%;
+	position:relative;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction : column;
+}
+
+.kanji_favoritesList_center_wrap{
+	width : 100%;
+	height : 80%;
+	overflow : auto;
+	color : black;
+}
+
+/*  3번째 - top_wrap */
+.kanji_list_backspace{
+	width : 10%;
+	height : 50px;
+	font-size: 30px;
+	font-family: 'KOTRAHOPE';
+	color : black;
+	cursor : pointer;
+	
+	position : absolute;
+	right : 7%;
+	top : 20%;
+}
+
+.kanji_list_backspace:hover{
+	color : #6e6e6e;
+}
+.kanji_test_button{
+	width : 20%;
+	height : 50px;
+	font-size: 30px;
+	font-family: 'KOTRAHOPE';
+	color : black;
+	cursor : pointer;
+}
+
+.kanji_test_button:hover{
+	color : #6e6e6e;
+}
+.kanji_list_top_wrap_wrap{
+	width : 100%;
+	height : 50px;
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	font-size : 17px;
+	font-weight : 700;
+
+}
+
+.kanji_list_top_wrap_wrap div{
+	display : flex;
+	justify-content: center;
+	align-items: center;		
+}
+.kanji_list_top_favorites{
+	width : 10%;
+	height : 50px;
+	float : left;
+
+}
+
+.kanji_list_top_character{
+	width : 30%;
+	height : 50px;
+	float : left;
+
+}
+.kanji_list_top_soundMean{
+	width : 20%;
+	height : 50px;
+	float : left;
+
+}
+.kanji_list_top_jpMean{
+	width : 20%;
+	height : 50px;
+	float : left;
+
+}
+.kanji_list_top_jpSound{
+	width : 20%;
+	height : 50px;
+	float : left;
+
+}
+/*  3번째 - center_wrap*/
+.kanji_list_kanji_id{
+	display : none;
+} 
+.kanji_list_kanji_character{
+	width : 30%;
+	height : 100px;
+	font-size : 50px;
+	float : left;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+} 
+.kanji_list_kanji_soundMean{
+	width : 20%;
+	height : 100px;
+	font-size : 20px;
+	float : left;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+.kanji_list_kanji_jpMean{
+	width : 20%;
+	height : 100px;
+	float : left;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+} 
+.kanji_list_kanji_jpSound{
+	width : 20%;
+	height : 100px;
+	float : left;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+} 
+
+.kanji_favorites_delete{
+	width : 10%;
+	height : 100px;
+	cursor : pointer;
+	float : left;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.kanji_favorites_delete img{
+	width : 50px;
+	height : 50px;
+}
+
+
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+
+	
+});
+/*]]>*/
+
+/*<![CDATA[*/
+$(function(){
+	
+	
+	$(".kanji_favorites_delete").click(function(e){
+		
+		if(confirm("정말 삭제 하시겠습니까?")){
+			
+		
+		var click_favorites = $(this);
+		var favorites = $(this).siblings().first().text();
+		
+			$.ajax({
+				type : 'POST',
+				url : '/favorites/delete',
+				data : { 
+					'kanji_id' : favorites  
+				},
+				success : function(data) {
+					click_favorites.parent().css("display","none");
+				},
+				error : function(xhr, status) {
+					alert("실패");
+				}
+			});
+	
+
+		}
+	});
+});
+/*]]>*/
+
+
+</script>
+<title>Insert title here</title>
+</head>
+<body>
+<main>
+	<div class = "kanji_favoritesList_top_wrap">
+		<div class = "kanji_test_button" th:text="'테스트 '+'하러'+' 가기'" th:onclick="'location.href = \'' + @{/kanji/favoritesTestSelect} + '\''" ></div>
+		<div class = "kanji_list_backspace" th:onclick="'location.href = \'' + @{/kanji/listSelect} + '\''">뒤로가기</div>
+		<div class = "kanji_list_top_wrap_wrap">
+			<div class = "kanji_list_top_favorites">즐겨 찾기 등록</div>
+			<div class = "kanji_list_top_character">한자</div>
+			<div class = "kanji_list_top_soundMean">음훈</div>
+			<div class = "kanji_list_top_jpMean">훈독</div>
+			<div class = "kanji_list_top_jpSound">음독</div>
+		</div>
+	</div>
+	<div class = "kanji_favoritesList_center_wrap">	
+		<div th:each ="list , i : ${kanji_list}">
+			<div  class = "kanji_favorites_delete">
+				<img th:src="@{/images/star-1.png}">
+			</div>
+			<div class = "kanji_list_kanji_id" th:text="${list.kanjiId}"></div>
+			<div class = "kanji_list_kanji_character" th:text="${list.kanjiCharacter}"></div>
+			<div class = "kanji_list_kanji_soundMean" th:text="${list.kanjiSoundMean}"></div>
+			<div class = "kanji_list_kanji_jpMean" th:text="${list.jpMean}"></div>
+			<div class = "kanji_list_kanji_jpSound" th:text="${list.jpSound}"></div>	
+			<br>
+			<br>
+		</div>
+	</div>	
+</main>
+</body>
+</html>

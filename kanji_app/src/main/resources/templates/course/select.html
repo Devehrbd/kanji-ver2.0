@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
+
+@font-face {
+    font-family: 'KOTRAHOPE';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+    font-weight: normal;
+   	font-style: normal;
+}
+
+
+/*  1번째  */
+body{
+	font-family : Nanum Gothic;
+	margin : 0 auto;
+	color : #6e6e6e	;
+
+}
+
+main{
+	width : 70%;
+	min-width : 1200px;
+	height : 90vh;
+	min-height : 900px;
+	
+	margin : 0 auto;
+	text-align : center;
+}
+
+/*  2번째  */
+.course_select_top_wrap{
+	width : 100%;
+	height : 20%;
+	font-size : 35px;
+	
+	display : flex;
+	align-items : center;
+	justify-content : center;
+	font-family: 'KOTRAHOPE';
+}
+
+.course_select_center_wrap{
+	width : 50%;
+	height : 80%;
+	
+	margin : 0 auto;
+	display : flex;
+	justify-content : space-around;
+	flex-direction : column;
+	align-items: center;
+}
+
+.course_select_center_wrap div{
+	width : 50%;
+	height : 10%;
+	
+	display : flex;
+	align-items : center;
+	justify-content : center;
+	
+	color : white;
+	cursor : pointer;	
+	font-weight : 700;
+	font-size : 20px;
+	
+	border-radius : 10px;
+	
+	
+}
+
+.course_6months{
+	background : #FF6E6E;
+}
+
+.course_6months:hover{
+	background : #F5AAAA;
+}
+.course_5months{
+	background : #F49551;
+}
+.course_5months:hover{
+	background : #FFD0A1;
+}
+.course_4months{
+	background : #FFC800;
+}
+
+.course_4months:hover{
+	background : #FFEB5A;
+}
+.course_3months{
+	background : #5EC75E;
+}
+.course_3months:hover{
+	background : #98FB98;
+}
+.course_2months{
+	background : #648CFF;
+}
+.course_2months:hover{
+	background : #AADBFF;
+}
+.course_month{
+	background : #46649B;
+}
+.course_month:hover{
+	background : #B4B4DC;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script th:inline="javascript">
+$(function(){
+	$(".course_select_center_wrap div").click(function(e){
+		var clickMonth;
+		switch($(this).text()){
+			case "6개월 과정" : clickMonth = 180; break; 
+			case "5개월 과정" : clickMonth = 150; break;
+			case "4개월 과정" : clickMonth = 120; break;
+			case "3개월 과정" : clickMonth = 90; break;
+			case "2개월 과정" : clickMonth = 60; break;
+			case "1개월 과정" : clickMonth = 30; break;
+		}
+
+		var form = document.createElement("form");
+		form.setAttribute("charset", "UTF-8");
+   		form.setAttribute("method", "Post");
+   		form.setAttribute("action", "/course/selectb");
+    
+    	var hiddenField = document.createElement("input");
+   	 	hiddenField.setAttribute("type", "hidden");
+   	 	hiddenField.setAttribute("name", "coursePeriod");
+    	hiddenField.setAttribute("value", clickMonth);
+    	form.appendChild(hiddenField);
+    
+   	 	document.body.appendChild(form);
+    	form.submit();
+	});
+});
+    
+</script>
+<meta charset="UTF-8">
+<title>Insert title heree</title>
+</head>
+<body>
+<main>
+	<div class = "course_select_top_wrap">
+		<span>처음이시네요~ 앞으로 함께할 과정을 선택해주세요!</span>
+	</div>
+	
+	<div class = "course_select_center_wrap">
+		<div id = "month" class = "course_6months">6개월 과정</div>
+		<div id = "month" class = "course_5months">5개월 과정</div>
+		<div id = "month" class = "course_4months">4개월 과정</div>
+		<div id = "month" class = "course_3months">3개월 과정</div>
+		<div id = "month" class = "course_2months">2개월 과정</div>
+		<div id = "month" class = "course_month">1개월 과정</div>
+	</div>
+	
+</main>	
+</body>
+</html>
