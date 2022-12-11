@@ -27,30 +27,30 @@ public class MemberController {
 	}
 	
 	//로긴
-	@PostMapping("/login")
-	public String login(Member member, HttpServletRequest request) {
-		
-		HttpSession session = request.getSession();
-		
-		Optional<Member> rt_member = mService.getMember(member);
-		
-		if(rt_member.isPresent()) {
-			
-			if(rt_member.get().getMemberPass().equals(member.getMemberPass())) {
-				
-				session.setAttribute("login_member", rt_member.get());
-				session.setAttribute("login_member_id", rt_member.get().getMemberId());
-				
-				
-				return "redirect:/course/select";
-				
-			}
-			
-		}
-		
-		
-		return "/main";
-	}
+//	@PostMapping("/login")
+//	public String login(Member member, HttpServletRequest request) {
+//		
+//		HttpSession session = request.getSession();
+//		
+//		Optional<Member> rt_member = mService.getMember(member);
+//		
+//		if(rt_member.isPresent()) {
+//			
+//			if(rt_member.get().getMemberPass().equals(member.getMemberPass())) {
+//				
+//				session.setAttribute("login_member", rt_member.get());
+//				session.setAttribute("login_member_id", rt_member.get().getMemberId());
+//				
+//				
+//				return "redirect:/course/select";
+//				
+//			}
+//			
+//		}
+//		
+//		
+//		return "/main";
+//	}
 	
 	
 	//가입

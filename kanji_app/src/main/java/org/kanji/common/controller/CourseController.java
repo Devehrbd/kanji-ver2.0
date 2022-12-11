@@ -31,7 +31,7 @@ public class CourseController {
 	HttpSession session = request.getSession();
 		
 	String login_member_id = (String)session.getAttribute("login_member_id");
-				
+
 	Optional<Course> existCourse = cService.readCourse(login_member_id);
 		
 	if(existCourse.isPresent()) {
@@ -45,15 +45,16 @@ public class CourseController {
 	}
 	
 	@PostMapping("/selectb")
-	public String selectb(@Param("coursePeriod")int coursePeriod, HttpServletRequest request) {
+	public String selectb(@Param("coursePeriod")int coursePeriod, HttpSession session) {
 		
-		HttpSession session = request.getSession();
-				
 		Course course = new Course();
 		
 		course.setCoursePeriod(coursePeriod);
 
-		course.setMember((Member)session.getAttribute("login_member"));
+		course.setMember((Member) session.getAttribute("login_member"));
+		
+		System.out.println(session.getAttribute("login_member")+"여기야");	
+		System.out.println(session.getAttribute("login_member_id")+"여기야");	
 		
 		cService.registCourse(course);
 		
