@@ -30,119 +30,74 @@ main{
 /*  2번째  */
 .loginPage_top_wrap{
 	width : 100%;
-	height : 40%;
+	height : 30%;
 	
 	display : flex;
-	justify-content: center;
+	justify-content: flex-end;
+	flex-direction:column;
 	align-items: center;
 	
 	font-family : KOTRAHOPE;
 	font-size : 4.0rem;
-	color : #505050;
-	
+	color : #505050;	
 }
 
 .loginPage_center_wrap{
 	width : 100%;
-	height : 60%; 
+	height :70%; 
 	
-	
-
 	justify-content: center;
 	align-items: top;
+
 }
 
 /*  3번째 - top_wrap  */
 
 
 /*  3번째 - center_wrap  */
-.loginPage_center_wrap form {
-	display : flex;
-	width : 100%;
-	height : 70%;
-
-	
-	flex-direction : column;
-	justify-content: center;
-	align-items: top;
-}
-
-.loginPage_center_wrap form div{
-	display : flex;
-	align-items : center;
+.loginPage_center_wrap_top{
+	width : 30%;
+	height : 20%;
 	margin : 0 auto;
-	width : 50%;
-	height: 30%;
-	position : relative;
-}
-.loginPage_center_wrap form div:last-child {
-	justify-content : center;
-}
 
-.loginPage_center_wrap label {
-	padding-right : 50px;
-	color : #828282;
-	font-size : 15px;
-	position : absolute;
-	transition : 0.5s;
-	padding-left : 10px;
-	font-weight : 500;
-	cursor : auto;
 	
-}
-
-.loginPage_center_wrap input{
-	border : none;
-	border-bottom : 1px solid #828282;
-	width : 100%;
-	height : 50%;
-	position : absolute;
-	padding-left : 10px;
-	
-}
-
-.loginPage_center_wrap input:focus,
-.loginPage_center_wrap input:valid{
-	outline : none;
-	border-bottom : 3px solid #F57878;
-	transition : 0.1s;
-}
-
-
-.loginPage_center_wrap input:focus + label,
-.loginPage_center_wrap input:valid + label{
-	transform : translateY(-170%);
-	font-size : 11px;
-}
-
-.loginPage_center_wrap button {
-	background : #FF5A5A;
-	border : none;
-	width : 40%;
-	height : 50%;
-	color : white;
+	font-family: 'KOTRAHOPE';
 	font-size : 30px;
-	font-family : KOTRAHOPE;
-	border-radius : 10px;
-	cursor : pointer;
+	display : flex;
+	align-items: center;
+	justify-content: center;
+	
+	color : #FF88A7;
 }
-.loginPage_center_wrap_join{
+
+.loginPage_center_wrap_center{
+	width : 50%;
+	height : 80%;
+	
+	margin : 0 auto;
+	display : flex;
+	justify-content: cneter;
+	align-items: center;
+	flex-direction : column;
+	
+}
+
+.loginPage_center_wrap_center div{
 	width : 100%;
-	height : 30%;
+	height : 20%;
+
+	
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
 }
 
-.loginPage_center_wrap_join button{
-	width : 13%;
-	height : 23%;
-	font-size : 23px;
-	background : #FF8282;
-}
-
-.loginPage_center_wrap button:hover {
-	background : #FAA8A8;
-}
-.loginPage_center_wrap_join button:hover{
-	background : #FAC1C1;
+.loginPage_center_wrap_center div img{
+	
+	width : 350px;
+	
+	cursor : pointer;
 }
 
 </style>
@@ -156,30 +111,26 @@ main{
 	</div>
 	
 	<div class = "loginPage_center_wrap">
-		<form action = "/member/login" method = "post">
+		<div class = "loginPage_center_wrap_top">소셜 로그인만 지원해요 !</div>
+			
+		<div class = "loginPage_center_wrap_center">
 			<div>
-				<input id = "member_id_input" type = "text" name = "memberId" required>
-				<label for = "member_id_input">아이디</label>
+				<a th:href="@{${G_loginURL}}">
+					<img th:src ="'/images/google.png'" >
+				</a>
 			</div>
 			<div>
-				<input id = "member_pw_input" type = "password" name = "memberPass" required>
-				<label for = "member_pw_input">비밀번호</label>
+				<a th:href="@{${N_loginURL}}">
+					<img th:src ="'/images/naver.png'" >
+				</a>
 			</div>
 			<div>
-				<button type="submit">로 그 인</button>
+				<a th:href="@{${K_loginURL}}">
+					<img th:src ="'/images/kakao.png'" >
+				</a>
 			</div>
-		</form>
-		<div class = "loginPage_center_wrap_join">
-			<br>
-			<br>
-			<span>아직 회원이 아니시라면?</span>
-			<br>
-			<br>
-			<button>회 원 가 입</button>
-		</div>
+		</div>	
 	</div>
-
-
 </main>
 </body>
 </html>
