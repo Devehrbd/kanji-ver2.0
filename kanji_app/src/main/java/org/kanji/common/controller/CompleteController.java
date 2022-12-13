@@ -2,7 +2,6 @@ package org.kanji.common.controller;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kanji.complete.entity.Complete;
@@ -26,9 +25,14 @@ public class CompleteController {
 	private CompleteServiceImpl cpService;
 	
 	@PostMapping("/regist")
-	public String regist(@Param("complete_passed") int complete_passed, HttpServletRequest request) {
+	public String regist(@Param("complete_passed") int complete_passed, HttpSession session) {
 		
-		HttpSession session = request.getSession();
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}
+		
 		Member login_member = (Member) session.getAttribute("login_member");
 		Optional<Complete> comple = cpService.selectCompleteOne(login_member.getMemberId(), complete_passed);
 		Course course = cService.readCourse(login_member.getMemberId()).get();
@@ -45,7 +49,7 @@ public class CompleteController {
 		}
 		
 
-		return "/main";
+		return "redirect:/kanji/listSelect2";
 	}
 	
 	

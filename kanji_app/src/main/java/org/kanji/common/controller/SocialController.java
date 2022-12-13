@@ -1,45 +1,23 @@
 package org.kanji.common.controller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Base64;
-import java.util.Base64.Decoder;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.kanji.member.entity.Member;
-import org.kanji.member.service.MemberService;
 import org.kanji.member.service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.Base64Utils;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.nimbusds.jwt.JWT;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
-
 
 /**
  * Handles requests for the application home page.
@@ -87,7 +65,6 @@ public class SocialController {
 			
 			JSONObject object3 = (JSONObject) object2.get("response");
 			
-			String name = (String) object3.get("name");
 			String id = (String) object3.get("id");
 			
 			Member member = new Member();
@@ -104,7 +81,7 @@ public class SocialController {
 			
 		}
 		
-		return  "redirect:/main";
+		return  "redirect:/member/loginPage";
 	}
 	
 	@RequestMapping("/google")
@@ -179,7 +156,7 @@ public class SocialController {
 			
 		}
 		
-		return  "redirect:/main";
+		return  "redirect:/member/loginPage";
 	}
 	
 	@RequestMapping("/kakao")
@@ -254,16 +231,8 @@ public class SocialController {
 			
 			return "redirect:/course/select";
 			
-			
-//			String encodeToken = ((String)object.get("id_token")).replace("\n","").replace("-", "+").replace("_", "/");	
-//			byte[] a = Base64.getMimeDecoder().decode(encodeToken);
-//			
-//			
-//			System.out.println(new String(a, StandardCharsets.UTF_8));
-		
-			
 		}
 		
-		return  "redirect:/main";
+		return  "redirect:/member/loginPage";
 	}
 }

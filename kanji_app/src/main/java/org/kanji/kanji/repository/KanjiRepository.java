@@ -1,9 +1,6 @@
 package org.kanji.kanji.repository;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.kanji.complete.entity.Complete;
 import org.kanji.kanji.entity.Kanji;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

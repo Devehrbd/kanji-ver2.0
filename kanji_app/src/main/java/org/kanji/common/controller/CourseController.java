@@ -2,7 +2,6 @@ package org.kanji.common.controller;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kanji.complete.service.CompleteServiceImpl;
@@ -26,10 +25,14 @@ public class CourseController {
 	private CompleteServiceImpl cpService;
 	
 	@GetMapping("/select")
-	public String select(HttpServletRequest request) {
-	
-	HttpSession session = request.getSession();
+	public String select(HttpSession session) {
 		
+	if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+	}
+	
 	String login_member_id = (String)session.getAttribute("login_member_id");
 
 	Optional<Course> existCourse = cService.readCourse(login_member_id);
@@ -53,18 +56,20 @@ public class CourseController {
 
 		course.setMember((Member) session.getAttribute("login_member"));
 		
-		System.out.println(session.getAttribute("login_member")+"여기야");	
-		System.out.println(session.getAttribute("login_member_id")+"여기야");	
-		
 		cService.registCourse(course);
 		
 		return "redirect:/kanji/listSelect";
+		
 	}
 	
 	@GetMapping("/reselection")
-	public String reselection(HttpServletRequest request) {
+	public String reselection(HttpSession session) {
 		
-		HttpSession session = request.getSession();
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}
 				
 		Member login_member= (Member)session.getAttribute("login_member");
 		

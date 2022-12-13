@@ -39,7 +39,6 @@ public class MemberController {
 		session.setAttribute("N_state", N_state);
 		model.addAttribute("N_loginURL", N_loginURL);
 		
-		
 		//google
 		String G_redirectURI = URLEncoder.encode("http://localhost:8080/social/google", "UTF-8");
 		String G_state = UUID.randomUUID().toString();

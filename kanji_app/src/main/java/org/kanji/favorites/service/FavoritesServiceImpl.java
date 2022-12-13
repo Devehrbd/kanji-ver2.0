@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.kanji.favorites.entity.Favorites;
 import org.kanji.favorites.repository.FavoritesRepository;
 import org.kanji.kanji.entity.Kanji;
-import org.kanji.kanji.repository.KanjiRepository;
 import org.kanji.member.entity.Member;
-import org.kanji.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;

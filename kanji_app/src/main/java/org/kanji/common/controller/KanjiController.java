@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kanji.complete.entity.Complete;
@@ -43,12 +42,13 @@ public class KanjiController {
 	}
 
 	@GetMapping("/listSelect2")
-	public void listSelect2(HttpServletRequest request, Model model) {
+	public String listSelect2(HttpSession session, Model model) {
 		
-		HttpSession session = request.getSession();
-		
-		session.getAttribute("login_member");
-				
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}				
 		
 		String login_member_id = (String)session.getAttribute("login_member_id");
 					
@@ -119,11 +119,17 @@ public class KanjiController {
 		
 		model.addAttribute("course_period", course_period);
 		model.addAttribute("course_message", course_message);
+		
+		return "/kanji/listSelect2";
 	}
 	
 	@GetMapping("/list")
-	public void list(@Param("course_index")int course_index,HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
+	public String list(@Param("course_index")int course_index,HttpSession session, Model model) {
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}
 
 		String login_member_id = (String)session.getAttribute("login_member_id");
 		int current_course = cService.readCourse(login_member_id).get().getCoursePeriod();
@@ -186,7 +192,8 @@ public class KanjiController {
 		model.addAttribute("favorites_list",favorites_num2);
 		model.addAttribute("kanji_list",kanji_list);
 		model.addAttribute("course_index",course_index);
-
+		
+		return "/kanji/list";
 		
 	}
 	
@@ -198,8 +205,13 @@ public class KanjiController {
 	}
 	
 	@GetMapping("/test")
-	public void test(@Param("type")String type,@Param("course_index")int course_index,HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
+	public String test(@Param("type")String type,@Param("course_index")int course_index,HttpSession session, Model model) {
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}
+		
 		String login_member_id = (String)session.getAttribute("login_member_id");
 		int current_course = cService.readCourse(login_member_id).get().getCoursePeriod();
 		
@@ -254,12 +266,18 @@ public class KanjiController {
 		model.addAttribute("kokai1",kokai1);
 		model.addAttribute("kokai2",kokai2);
 		model.addAttribute("kokai3",kokai3);
+		
+		return "/kanji/test";
 	}
 	
 	@GetMapping("/favoritesList")
-	public void favList(HttpServletRequest request, Model model) {
+	public String favList(HttpSession session, Model model) {
 		
-		HttpSession session = request.getSession();
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}
 		Member login_member = (Member)session.getAttribute("login_member");
 		
 		Optional<List<Favorites>> favorites_list = Optional.empty();
@@ -280,6 +298,7 @@ public class KanjiController {
 		
 		model.addAttribute("kanji_list",kanji_favorites_list);		
 		
+		return "/kanji/favoritesList";
 	}
 	
 	@GetMapping("/favoritesTestSelect")
@@ -288,8 +307,12 @@ public class KanjiController {
 	}
 	
 	@GetMapping("/favoritesTest")
-	public void favoritesTest(@Param("type")String type,HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
+	public String favoritesTest(@Param("type")String type,HttpSession session, Model model) {
+		if (session.getAttribute("login_member") == null) {
+			
+			return "redirect:/member/loginPage";
+			
+		}
 		Member login_member = (Member)session.getAttribute("login_member");
 
 		Optional<List<Favorites>> favorites_list = Optional.empty();
@@ -335,5 +358,7 @@ public class KanjiController {
 		model.addAttribute("kokai1",kokai1);
 		model.addAttribute("kokai2",kokai2);
 		model.addAttribute("kokai3",kokai3);
+		
+		return "/kanji/favoritesTest";
 	}
 }

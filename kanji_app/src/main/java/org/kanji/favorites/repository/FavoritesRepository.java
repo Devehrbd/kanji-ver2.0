@@ -5,9 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.kanji.complete.entity.Complete;
 import org.kanji.favorites.entity.Favorites;
-import org.kanji.kanji.entity.Kanji;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

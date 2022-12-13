@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.kanji.course.entity.Course;
 import org.kanji.course.repository.CourseRepository;
 import org.kanji.member.entity.Member;
-import org.kanji.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
