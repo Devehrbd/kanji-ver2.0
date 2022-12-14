@@ -13,6 +13,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.kanji.member.entity.Member;
 import org.kanji.member.service.MemberServiceImpl;
+import org.kanji.social.api.SocialAPI;
+import org.kanji.social.api.SocialAccessTokenURL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -25,214 +27,107 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/social")
 public class SocialController {
-	
+
 	@Autowired
 	private MemberServiceImpl mService;
-	private String N_CLIENT_ID = "APU1t3m4Obdif6jYJRSR";
-	private String N_CLI_SECRET = "j1QvEmBdBb";
-	private String G_CLIENT_ID = "866792557950-qkcmi3hr3bop38te6t6erivdhud0ov39.apps.googleusercontent.com";
-	private String G_CLI_SECRET = "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";
-	private String K_CLIENT_ID = "5af9654538cb7e4fb7145ffb2389bc71";
-	private String K_CLI_SECRET = "EtT52bLhgw9UfPOqfDrXCHzza8YIXikY";
-	
+
+	@Autowired
+	private SocialAccessTokenURL socialAccess;
+
+	@Autowired
+	private SocialAPI socialAPI;
+
 	@RequestMapping("/naver")
-	public String naver(HttpSession session, @RequestParam String code, @RequestParam String state) throws Exception{
-		
-		String sessionState = (String)session.getAttribute("N_state");
-		if(sessionState.equals(state)) {
-			String tempTokenURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
-			tempTokenURL += String.format("&client_id=%s&client_secret=%s&code=%s&state=%s",N_CLIENT_ID,N_CLI_SECRET,code,state);
-			URL tokenURL = new URL(tempTokenURL);
-			
-			BufferedReader bf = new BufferedReader(new InputStreamReader(tokenURL.openStream(),"UTF-8"));	
-			String info = bf.readLine();
-			
-			JSONParser parser = new JSONParser();
-			JSONObject object = (JSONObject) parser.parse(info);
-			
-			String tempProfileURL =  "https://openapi.naver.com/v1/nid/me";
-			String headerProfileURL = "Bearer " + object.get("access_token");
+	public String naver(HttpSession session, @RequestParam String code, @RequestParam String state) throws Exception {
 
-			URL profileURL = new URL(tempProfileURL);
-			HttpURLConnection httpURL = (HttpURLConnection) profileURL.openConnection();
-			
-			httpURL.setRequestProperty("Authorization", headerProfileURL);
-			
-			BufferedReader bf2 = new BufferedReader(new InputStreamReader(httpURL.getInputStream(),"UTF-8"));
-			String profileInfo = bf2.readLine();
-						
-			JSONObject object2 = (JSONObject) parser.parse(profileInfo);
-			
-			JSONObject object3 = (JSONObject) object2.get("response");
-			
-			String id = (String) object3.get("id");
-			
+		String sessionState = (String) session.getAttribute("N_state");
+		if (sessionState.equals(state)) {
+
+			// Access Token 발급
+			JSONObject accessTokenJSON = socialAccess.getAccessTokenJSONObject("NAVER", code, state);
+
+			// API 사용 - profile 조회
+			JSONObject responseJSON = socialAPI.getProfileUsers("NAVER", (String) accessTokenJSON.get("access_token"));
+			JSONObject profileJSON = (JSONObject) responseJSON.get("response");
+
+			// 멤버객체 저장, 세션등록 및 DB에 ID저장
 			Member member = new Member();
-			member.setMemberId((String)object3.get("id"));
+			member.setMemberId((String) profileJSON.get("id"));
 			member.setLoginMethod("NAVER");
-			
-			session.setAttribute("login_member_id", id);
-			session.setAttribute("login_member", member);
-			
-			if(mService.getMember(member).isEmpty()) {
-				mService.joinMember(member);
-			}
-			return "redirect:/course/select";
-			
-		}
-		
-		return  "redirect:/member/loginPage";
-	}
-	
-	@RequestMapping("/google")
-	public String google(HttpSession session, @RequestParam String code, @RequestParam String state) throws Exception{
-		
-		String sessionState = (String)session.getAttribute("G_state");
-		if(sessionState.equals(state)) {
-			String G_redirectURI = URLEncoder.encode("http://localhost:8080/social/google", "UTF-8");
-			String tokenParam = String.format("client_id=%s&client_secret=%s&code=%s&state=%s&grant_type=authorization_code&redirect_uri=%s",G_CLIENT_ID,G_CLI_SECRET,code,state,G_redirectURI);
-			
-			URL tokenURL = new URL("https://oauth2.googleapis.com/token");
-			HttpURLConnection con = (HttpURLConnection)tokenURL.openConnection();
-			
-			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			con.setRequestProperty("Content-Length", Integer.toString(tokenParam.length()));
-			con.setDoOutput(true);
-			con.setDoInput(true);
-			
-			try (DataOutputStream dos = new DataOutputStream(con.getOutputStream())) {
-				dos.writeBytes(tokenParam);
-	        }
-	 
-			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-			StringBuilder sb = new StringBuilder();
-			String inputLine;
-			
-			while ((inputLine=br.readLine()) != null) {
-				sb.append(inputLine);
-			}
-	
-			String token = sb.toString();
-			
-			JSONParser parser = new JSONParser();
-			JSONObject object = (JSONObject) parser.parse(token);
-			
-			String tempProfileURL =  "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
-			String headerProfileURL = "Bearer " + object.get("access_token");
-			
-			URL profileURL = new URL(tempProfileURL);
-			HttpURLConnection httpURL = (HttpURLConnection) profileURL.openConnection();
-			
-			httpURL.setRequestProperty("Authorization", headerProfileURL);
-			httpURL.setRequestProperty("aceept", "application/json");
-			
-			BufferedReader br2 = new BufferedReader(new InputStreamReader(httpURL.getInputStream(),"UTF-8"));
-			
-			StringBuilder sb2 = new StringBuilder();
-			String inputLine2;
-			
-			while ((inputLine2=br2.readLine()) != null) {
-				sb2.append(inputLine2);
-
-			}
-			
-			String profileData = sb2.toString();
-			JSONObject object2 = (JSONObject) parser.parse(profileData);
-			
-			Member member = new Member();
-			member.setMemberId(String.valueOf(object2.get("id")));
-			member.setLoginMethod("GOOGLE");
-			
-			session.setAttribute("login_member_id",member.getMemberId());
-			session.setAttribute("login_member", member);
-			
-			if(mService.getMember(member).isEmpty()) {
-				mService.joinMember(member);
-			}
-			
-			return "redirect:/course/select";
-			
-		}
-		
-		return  "redirect:/member/loginPage";
-	}
-	
-	@RequestMapping("/kakao")
-	public String kakao(HttpSession session, @RequestParam String code, @RequestParam String state) throws Exception{
-		
-		String sessionState = (String)session.getAttribute("K_state");
-		if(sessionState.equals(state)) {
-			String K_redirectURI = URLEncoder.encode("http://localhost:8080/social/kakao", "UTF-8");
-			String tokenParam = String.format("client_id=%s&client_secret=%s&code=%s&state=%s&grant_type=authorization_code&redirect_uri=%s",K_CLIENT_ID,K_CLI_SECRET,code,state,K_redirectURI);
-			
-			URL tokenURL = new URL("https://kauth.kakao.com/oauth/token");
-			HttpURLConnection con = (HttpURLConnection)tokenURL.openConnection();
-			
-			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-			con.setRequestProperty("Content-Length", Integer.toString(tokenParam.length()));
-			con.setDoOutput(true);
-			con.setDoInput(true);
-			
-			try (DataOutputStream dos = new DataOutputStream(con.getOutputStream())) {
-				dos.writeBytes(tokenParam);
-	        }
-	 
-			BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-			StringBuilder sb = new StringBuilder();
-			String inputLine;
-			
-			while ((inputLine=br.readLine()) != null) {
-				sb.append(inputLine);
-			}
-	
-			String token = sb.toString();
-			
-			JSONParser parser = new JSONParser();
-			JSONObject object = (JSONObject) parser.parse(token);
-
-			String tempProfileURL =  "https://kapi.kakao.com/v2/user/me";
-			String headerProfileURL = "Bearer " + object.get("access_token");
-			
-			URL profileURL = new URL(tempProfileURL);
-			HttpURLConnection httpURL = (HttpURLConnection) profileURL.openConnection();
-			
-			httpURL.setRequestProperty("Authorization", headerProfileURL);
-			httpURL.setRequestProperty("aceept", "application/json");
-			
-			BufferedReader br2 = new BufferedReader(new InputStreamReader(httpURL.getInputStream(),"UTF-8"));
-			
-			StringBuilder sb2 = new StringBuilder();
-			String inputLine2;
-			
-			while ((inputLine2=br2.readLine()) != null) {
-				sb2.append(inputLine2);
-
-			}
-			
-			String profileData = sb2.toString();
-			JSONObject object2 = (JSONObject) parser.parse(profileData);
-			
-			System.out.println(object2.get("id")+"여기");
-			
-			Member member = new Member();
-			member.setMemberId(String.valueOf(object2.get("id")));
-			member.setLoginMethod("KAKAO");
-			
 			session.setAttribute("login_member_id", member.getMemberId());
 			session.setAttribute("login_member", member);
-			
-			if(mService.getMember(member).isEmpty()) {
+
+			if (mService.getMember(member).isEmpty()) {
 				mService.joinMember(member);
 			}
-			
+
 			return "redirect:/course/select";
-			
+
 		}
-		
-		return  "redirect:/member/loginPage";
+
+		return "redirect:/member/loginPage";
+	}
+
+	@RequestMapping("/google")
+	public String google(HttpSession session, @RequestParam String code, @RequestParam String state) throws Exception {
+
+		String sessionState = (String) session.getAttribute("G_state");
+		if (sessionState.equals(state)) {
+
+			// Access Token 발급
+			JSONObject accessTokenJSON = socialAccess.getAccessTokenJSONObject("GOOGLE", code, state);
+
+			// API 사용 - profile 조회
+			JSONObject profileJSON = socialAPI.getProfileUsers("GOOGLE", (String) accessTokenJSON.get("access_token"));
+
+			// 멤버객체 저장, 세션등록 및 DB에 ID저장
+			Member member = new Member();
+			member.setMemberId(String.valueOf(profileJSON.get("id")));
+			member.setLoginMethod("GOOGLE");
+
+			session.setAttribute("login_member_id", member.getMemberId());
+			session.setAttribute("login_member", member);
+
+			if (mService.getMember(member).isEmpty()) {
+				mService.joinMember(member);
+			}
+
+			return "redirect:/course/select";
+
+		}
+
+		return "redirect:/member/loginPage";
+	}
+
+	@RequestMapping("/kakao")
+	public String kakao(HttpSession session, @RequestParam String code, @RequestParam String state) throws Exception {
+
+		String sessionState = (String) session.getAttribute("K_state");
+		if (sessionState.equals(state)) {
+
+			// Access Token 발급
+			JSONObject accessTokenJSON = socialAccess.getAccessTokenJSONObject("KAKAO", code, state);
+
+			// API 사용 - profile 조회
+			JSONObject profileJSON = socialAPI.getProfileUsers("KAKAO", (String) accessTokenJSON.get("access_token"));
+
+			// 멤버객체 저장, 세션등록 및 DB에 ID저장
+			Member member = new Member();
+			member.setMemberId(String.valueOf(profileJSON.get("id")));
+			member.setLoginMethod("KAKAO");
+
+			session.setAttribute("login_member_id", member.getMemberId());
+			session.setAttribute("login_member", member);
+
+			if (mService.getMember(member).isEmpty()) {
+				mService.joinMember(member);
+			}
+
+			return "redirect:/course/select";
+
+		}
+
+		return "redirect:/member/loginPage";
 	}
 }

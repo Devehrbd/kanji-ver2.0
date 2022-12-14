@@ -17,9 +17,6 @@ public class Member {
 	@Id
 	@Column(name = "member_id")
 	private String memberId;
-
-	@Column(name = "member_email")
-	private String memberEmail;
 	
 	@Column(name = "login_method")
 	private String loginMethod;

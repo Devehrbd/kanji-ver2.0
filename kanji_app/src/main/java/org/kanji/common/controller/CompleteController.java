@@ -33,8 +33,10 @@ public class CompleteController {
 			
 		}
 		
-		Member login_member = (Member) session.getAttribute("login_member");
+		Member login_member = (Member)session.getAttribute("login_member");
+		
 		Optional<Complete> comple = cpService.selectCompleteOne(login_member.getMemberId(), complete_passed);
+		
 		Course course = cService.readCourse(login_member.getMemberId()).get();
 		
 		Complete complete = new Complete();	

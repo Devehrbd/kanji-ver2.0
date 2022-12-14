@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -53,6 +54,7 @@ public class KanjiController {
 		String login_member_id = (String)session.getAttribute("login_member_id");
 					
 		Optional<Course> current_course = cService.readCourse(login_member_id);
+		
 		List<Integer> course_period = new ArrayList<>();
 		List<String> course_message = new ArrayList<>();
 		
@@ -361,4 +363,5 @@ public class KanjiController {
 		
 		return "/kanji/favoritesTest";
 	}
+
 }
