@@ -53,7 +53,6 @@ public class SocialController {
 			// 멤버객체 저장, 세션등록 및 DB에 ID저장
 			Member member = new Member();
 			member.setMemberId((String) profileJSON.get("id"));
-			member.setLoginMethod("NAVER");
 
 			session.setAttribute("login_member_id", member.getMemberId());
 			session.setAttribute("login_member", member);
@@ -84,7 +83,6 @@ public class SocialController {
 			// 멤버객체 저장, 세션등록 및 DB에 ID저장
 			Member member = new Member();
 			member.setMemberId(String.valueOf(profileJSON.get("id")));
-			member.setLoginMethod("GOOGLE");
 
 			session.setAttribute("login_member_id", member.getMemberId());
 			session.setAttribute("login_member", member);
@@ -115,7 +113,6 @@ public class SocialController {
 			// 멤버객체 저장, 세션등록 및 DB에 ID저장
 			Member member = new Member();
 			member.setMemberId(String.valueOf(profileJSON.get("id")));
-			member.setLoginMethod("KAKAO");
 
 			session.setAttribute("login_member_id", member.getMemberId());
 			session.setAttribute("login_member", member);

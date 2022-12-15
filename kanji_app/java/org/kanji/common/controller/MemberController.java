@@ -49,7 +49,6 @@ public class MemberController {
 		model.addAttribute("N_loginURL", N_loginURL);
 		model.addAttribute("K_loginURL", K_loginURL);
 		model.addAttribute("G_loginURL", G_loginURL);
-		
 	}
 		
 	// 로그아웃
