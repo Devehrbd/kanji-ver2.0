@@ -2,24 +2,24 @@ package org.kanji.security.domain;
 
 import java.util.Map;
 
-public class GoogleUserInfo implements OAuth2UserInfo {
+public class KakaoUserInfo implements OAuth2UserInfo {
 	
 	private Map<String, Object> attributes;
 	
-	public GoogleUserInfo(Map<String, Object> attributes) {
+	public KakaoUserInfo(Map<String, Object> attributes) {
 		this.attributes = attributes;
 	}
 	
 	@Override
-	public String getProviderId() {
+	public Long getProviderId() {
 		// TODO Auto-generated method stub
-		return (String) attributes.get("sub");
+		return (Long)attributes.get("id");
 	}
 
 	@Override
 	public String getProvider() {
 		// TODO Auto-generated method stub
-		return "google";
+		return "kakao";
 	}
 
 

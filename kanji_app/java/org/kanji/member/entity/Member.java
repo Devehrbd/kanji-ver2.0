@@ -21,13 +21,7 @@ public class Member {
 	@Id
 	@Column(name = "member_id")
 	private String memberId;
-
-	@Column(unique = true, name="member_email")
-	private String memberEmail;
 	
-	@Column(name="member_name")
-	private String memberName;
-
 	@Enumerated(EnumType.STRING)
     private Role role;
 	

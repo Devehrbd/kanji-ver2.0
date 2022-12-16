@@ -1,5 +1,6 @@
 package org.kanji.security.auth;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,8 @@ import org.kanji.member.entity.Member;
 import org.kanji.member.repository.MemberRepository;
 import org.kanji.member.service.MemberService;
 import org.kanji.security.domain.GoogleUserInfo;
+import org.kanji.security.domain.KakaoUserInfo;
+import org.kanji.security.domain.NaverUserInfo;
 import org.kanji.security.domain.OAuth2UserInfo;
 import org.kanji.security.domain.Role;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -32,7 +35,6 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
 		
 		OAuth2UserService delegate = new DefaultOAuth2UserService();
 		OAuth2User oAuth2User = delegate.loadUser(userRequest);
-		
 		// 여기는 과연 어떻게 돌아가는지 확인하기 좋을듯
 		System.out.println("userRequest = " + userRequest.getAccessToken().getTokenValue());
         System.out.println("userRequest = " + userRequest.getClientRegistration());
@@ -45,21 +47,33 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
 		
 		if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+		}else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+			oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
+		}else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+			oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
 		}
 		
-		Optional<Member> member = mRepo.findByMemberId(oAuth2User.getAttribute("sub"));
-		if(member.isEmpty()) {
+		
+		String sumProvider = oAuth2UserInfo.getProvider()+"_"+ String.valueOf(oAuth2UserInfo.getProviderId());
+		
+		Optional<Member> memberOP = mRepo.findByMemberId(sumProvider);
+		
+		Member member = new Member();
+		
+		if(memberOP.isEmpty()) {
 			
-			System.out.println("데이터베이스 저장해");
+			member.setMemberId(sumProvider);
+			member.setRole(Role.USER);
+			mRepo.save(member);
 			
 		} else {
 			
-			System.out.println("데이터베이스 이미 저장되었다.");
+			member = memberOP.get();
 			
 		}
 	
 	        
-		return new PrincipalDetails(member.get(), oAuth2User.getAttributes());
+		return new PrincipalDetails(member, oAuth2User.getAttributes());
 	}
 	
 }
