@@ -10,6 +10,7 @@ import org.kanji.course.entity.Course;
 import org.kanji.course.service.CourseServiceImpl;
 import org.kanji.member.entity.Member;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,32 +26,33 @@ public class CompleteController {
 	private CompleteServiceImpl cpService;
 	
 	@PostMapping("/regist")
-	public String regist(@Param("complete_passed") int complete_passed, HttpSession session) {
+	public String regist(@Param("complete_passed") int complete_passed, Authentication auth) {
 		
-		if (session.getAttribute("login_member") == null) {
+		if (auth.getName() == null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}
 		
-		Member login_member = (Member)session.getAttribute("login_member");
+		Member member = new Member();
+		member.setMemberId(auth.getName());
+				
+		Optional<Complete> comple = cpService.selectCompleteOne(auth.getName(), complete_passed);
 		
-		Optional<Complete> comple = cpService.selectCompleteOne(login_member.getMemberId(), complete_passed);
-		
-		Course course = cService.readCourse(login_member.getMemberId()).get();
+		Optional<Course> course = cService.readCourse(auth.getName());
 		
 		Complete complete = new Complete();	
-		complete.setCourse(course);
-		complete.setMember(login_member);
+		complete.setCourse(course.get());
+		complete.setMember(member);
 		
 		if(comple.isEmpty()) {
 			complete.setCompletePassed(complete_passed);
 			cpService.registComplete(complete);
 		}else{
-			cpService.updateComplete(login_member.getMemberId(),complete_passed);	
+			cpService.updateComplete(member.getMemberId(),complete_passed);	
 		}
 		
-
+		
 		return "redirect:/kanji/listSelect2";
 	}
 	

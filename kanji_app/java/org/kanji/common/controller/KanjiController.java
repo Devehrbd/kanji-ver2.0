@@ -19,7 +19,9 @@ import org.kanji.favorites.service.FavoritesServiceImpl;
 import org.kanji.kanji.entity.Kanji;
 import org.kanji.kanji.service.KanjiServiceImpl;
 import org.kanji.member.entity.Member;
+import org.kanji.security.auth.PrincipalDetails;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,17 +45,16 @@ public class KanjiController {
 	}
 
 	@GetMapping("/listSelect2")
-	public String listSelect2(HttpSession session, Model model) {
+	public String listSelect2(@AuthenticationPrincipal PrincipalDetails prin, Model model) {
 		
-		if (session.getAttribute("login_member") == null) {
+		if (prin == null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}				
 		
-		String login_member_id = (String)session.getAttribute("login_member_id");
 					
-		Optional<Course> current_course = cService.readCourse(login_member_id);
+		Optional<Course> current_course = cService.readCourse(prin.getUsername());
 		
 		List<Integer> course_period = new ArrayList<>();
 		List<String> course_message = new ArrayList<>();
@@ -66,7 +67,7 @@ public class KanjiController {
 			
 		}
 		
-		Optional<List<Complete>> tempComplete = cpService.selectCompleteAll(login_member_id);
+		Optional<List<Complete>> tempComplete = cpService.selectCompleteAll(prin.getUsername());
 		
 		if(tempComplete.isPresent()) {
 			Calendar curDate = Calendar.getInstance();
@@ -126,15 +127,14 @@ public class KanjiController {
 	}
 	
 	@GetMapping("/list")
-	public String list(@Param("course_index")int course_index,HttpSession session, Model model) {
-		if (session.getAttribute("login_member") == null) {
+	public String list(@Param("course_index")int course_index,@AuthenticationPrincipal PrincipalDetails prin, Model model) {
+		if (prin == null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}
 
-		String login_member_id = (String)session.getAttribute("login_member_id");
-		int current_course = cService.readCourse(login_member_id).get().getCoursePeriod();
+		int current_course = cService.readCourse(prin.getUsername()).get().getCoursePeriod();
 		
 		List<Kanji> kanji_list = new ArrayList<>();
 	
@@ -161,7 +161,7 @@ public class KanjiController {
 		
 		
 		List<Integer> favorites_num = new ArrayList<>();
-		Optional<List<Favorites>> fav = fService.readFavoritesList((Member)session.getAttribute("login_member"));
+		Optional<List<Favorites>> fav = fService.readFavoritesList(prin.getMember());
 		
 		if(fav.isPresent()) {
 			
@@ -207,15 +207,14 @@ public class KanjiController {
 	}
 	
 	@GetMapping("/test")
-	public String test(@Param("type")String type,@Param("course_index")int course_index,HttpSession session, Model model) {
-		if (session.getAttribute("login_member") == null) {
+	public String test(@Param("type")String type,@Param("course_index")int course_index,@AuthenticationPrincipal PrincipalDetails prin, Model model) {
+		if (prin == null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}
 		
-		String login_member_id = (String)session.getAttribute("login_member_id");
-		int current_course = cService.readCourse(login_member_id).get().getCoursePeriod();
+		int current_course = cService.readCourse(prin.getUsername()).get().getCoursePeriod();
 		
 		List<Kanji> kanji_list = new ArrayList<>();
 	
@@ -273,17 +272,16 @@ public class KanjiController {
 	}
 	
 	@GetMapping("/favoritesList")
-	public String favList(HttpSession session, Model model) {
+	public String favList(@AuthenticationPrincipal PrincipalDetails prin, Model model) {
 		
-		if (session.getAttribute("login_member") == null) {
+		if (prin== null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}
-		Member login_member = (Member)session.getAttribute("login_member");
 		
 		Optional<List<Favorites>> favorites_list = Optional.empty();
-		favorites_list = fService.readFavoritesList(login_member);
+		favorites_list = fService.readFavoritesList(prin.getMember());
 		
 		List<Integer> kanji_id_list = new ArrayList<>();
 		
@@ -309,17 +307,15 @@ public class KanjiController {
 	}
 	
 	@GetMapping("/favoritesTest")
-	public String favoritesTest(@Param("type")String type,HttpSession session, Model model) {
-		if (session.getAttribute("login_member") == null) {
+	public String favoritesTest(@Param("type")String type,@AuthenticationPrincipal PrincipalDetails prin, Model model) {
+		if (prin == null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}
-		Member login_member = (Member)session.getAttribute("login_member");
-
 		Optional<List<Favorites>> favorites_list = Optional.empty();
 	
-		favorites_list = fService.readFavoritesList(login_member);
+		favorites_list = fService.readFavoritesList(prin.getMember());
 		
 		List<Integer> kanji_id_list = new ArrayList<>();
 		

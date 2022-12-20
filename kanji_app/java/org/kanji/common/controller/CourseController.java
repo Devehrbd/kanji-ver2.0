@@ -1,5 +1,6 @@
 package org.kanji.common.controller;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +9,12 @@ import org.kanji.complete.service.CompleteServiceImpl;
 import org.kanji.course.entity.Course;
 import org.kanji.course.service.CourseServiceImpl;
 import org.kanji.member.entity.Member;
+import org.kanji.security.auth.PrincipalDetails;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,36 +31,33 @@ public class CourseController {
 	private CompleteServiceImpl cpService;
 	
 	@GetMapping("/select")
-	public String select(HttpSession session) {
-		
-	if (session.getAttribute("login_member") == null) {
-			
+	public String select(@AuthenticationPrincipal PrincipalDetails prin) {
+		if (prin == null) {
+
 			return "redirect:/member/loginPage";
 			
-	}
-	
-	String login_member_id = (String)session.getAttribute("login_member_id");
+		}
 
-	Optional<Course> existCourse = cService.readCourse(login_member_id);
+		Optional<Course> existCourse = cService.readCourse(prin.getUsername());
 		
-	if(existCourse.isPresent()) {
+		if(existCourse.isPresent()) {
 			
-		return "redirect:/kanji/listSelect";
+			return "redirect:/kanji/listSelect";
 			
-	}
+		}
 	
-	return "/course/select";
+		return "/course/select";
 		
-	}
+		}
 	
 	@PostMapping("/selectb")
-	public String selectb(@Param("coursePeriod")int coursePeriod, HttpSession session) {
+	public String selectb(@Param("coursePeriod")int coursePeriod, @AuthenticationPrincipal PrincipalDetails prin) {
 		
 		Course course = new Course();
 		
 		course.setCoursePeriod(coursePeriod);
-
-		course.setMember((Member) session.getAttribute("login_member"));
+		
+		course.setMember(prin.getMember());
 		
 		cService.registCourse(course);
 		
@@ -63,19 +66,17 @@ public class CourseController {
 	}
 	
 	@GetMapping("/reselection")
-	public String reselection(HttpSession session) {
+	public String reselection(@AuthenticationPrincipal PrincipalDetails prin) {
 		
-		if (session.getAttribute("login_member") == null) {
+		if (prin == null) {
 			
 			return "redirect:/member/loginPage";
 			
 		}
-				
-		Member login_member= (Member)session.getAttribute("login_member");
+						
+		cpService.deleteComplete(prin.getMember());
 		
-		cpService.deleteComplete(login_member);
-		
-		cService.deleteCourse(login_member);
+		cService.deleteCourse(prin.getMember());
 		
 		return "redirect:/course/select";
 	}

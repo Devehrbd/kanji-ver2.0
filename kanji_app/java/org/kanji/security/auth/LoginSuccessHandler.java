@@ -38,7 +38,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 			System.out.println(list.nextElement());
 		}
 
-		response.sendRedirect("/main");
+		response.sendRedirect("/course/select");
 	}
 	
 }

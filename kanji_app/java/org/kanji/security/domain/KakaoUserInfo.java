@@ -11,9 +11,9 @@ public class KakaoUserInfo implements OAuth2UserInfo {
 	}
 	
 	@Override
-	public Long getProviderId() {
+	public String getProviderId() {
 		// TODO Auto-generated method stub
-		return (Long)attributes.get("id");
+		return String.valueOf(attributes.get("id"));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package org.kanji.member.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member {
+public class Member implements Serializable{
 	
 	@Id
 	@Column(name = "member_id")
