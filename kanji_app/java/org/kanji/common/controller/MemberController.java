@@ -26,12 +26,9 @@ public class MemberController {
 	private SocialloginURL social;
 	
 	@GetMapping("/loginPage")
-	public void loginPage(HttpSession session, Model model) throws Exception {
-		
-		
-		
-		
-		
+	public void loginPage(){
+	
+//		//사용 하지 않는 url 생성 -> security로 대체
 //		//naver 로그인 url 생성
 //		String N_state = social.getRandomState();
 //		String N_loginURL = social.getLoginPageURL("NAVER", N_state);

@@ -6,8 +6,11 @@ import java.util.Map;
 
 import org.kanji.member.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+
+import com.nimbusds.jose.proc.SecurityContext;
 
 import lombok.Data;
 

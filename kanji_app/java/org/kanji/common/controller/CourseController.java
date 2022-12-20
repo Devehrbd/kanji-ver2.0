@@ -37,7 +37,7 @@ public class CourseController {
 			return "redirect:/member/loginPage";
 			
 		}
-
+		
 		Optional<Course> existCourse = cService.readCourse(prin.getUsername());
 		
 		if(existCourse.isPresent()) {

@@ -27,14 +27,14 @@ import lombok.RequiredArgsConstructor;
 public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
 	private final MemberRepository mRepo;
-	private final HttpSession session;
 	private final MemberService mService;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		
-		OAuth2UserService delegate = new DefaultOAuth2UserService();
+		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate= new DefaultOAuth2UserService();
 		OAuth2User oAuth2User = delegate.loadUser(userRequest);
+		
 		// 여기는 과연 어떻게 돌아가는지 확인하기 좋을듯
 		System.out.println("userRequest = " + userRequest.getAccessToken().getTokenValue());
         System.out.println("userRequest = " + userRequest.getClientRegistration());
@@ -54,7 +54,7 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
 		}
 		
 		
-		String sumProvider = oAuth2UserInfo.getProvider()+"_"+ String.valueOf(oAuth2UserInfo.getProviderId());
+		String sumProvider = oAuth2UserInfo.getProvider()+"_"+ String.valueOf(oAuth2UserInfo.getProviderId());   
 		
 		Optional<Member> memberOP = mRepo.findByMemberId(sumProvider);
 		
@@ -71,8 +71,7 @@ public class CustomOAuth2MemberService implements OAuth2UserService<OAuth2UserRe
 			member = memberOP.get();
 			
 		}
-	
-	        
+  
 		return new PrincipalDetails(member, oAuth2User.getAttributes());
 	}
 	
