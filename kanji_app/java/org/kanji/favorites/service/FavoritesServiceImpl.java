@@ -36,7 +36,7 @@ public class FavoritesServiceImpl implements FavoritesService {
 	
 	@Override
 	public Optional<List<Favorites>> readFavoritesList(Member member) {
-		// TODO Auto-generated method stub
+		
 		return fRepo.readFavoritesList(member.getMemberId());
 	}
 	

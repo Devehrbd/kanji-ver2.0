@@ -25,10 +25,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
 
 	public PrincipalDetails(Member member,Map<String, Object> attributes) {
-		
 	        this.member = member;
 	        this.attributes = attributes;
-	    }
+	}
 
 
 	@Override
