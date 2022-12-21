@@ -43,8 +43,9 @@ main{
 	height : 40%; 
 	
 	display : flex;
-	justify-content: center;
-	align-items: top;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction : column;
 }
 
 /*  3번째 - center_wrap */
@@ -54,7 +55,53 @@ main{
 	cursor : pointer;
 }
 
+.main_center_wrap div{
+	width : 100%;
+	height : 60%;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	
+	font-size : 30px;
+	color : #FF5675	;
+}
+
+.main_center_wrap div span:hover{
+	color : #FFCFDA;
+	cursor: pointer;
+}
+
 /*  3번째 - top_wrap */
+
+
+
+/*  modal  */
+
+.main_modal_wrap{
+	display : none;
+	width : 500px;
+	height : 500px;
+	position : fixed;
+	top : 50%;
+	left : 50%;
+	transform: translate(-50%, -50%);
+	
+
+	
+}
+
+.main_modal_contents{
+	width : 100%;
+	height : 100%;
+	display : flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background : #FFF0F5;
+	border-radius : 50px;
+	font-size : 18px;
+}
+
 
 </style>
 
@@ -66,6 +113,18 @@ $(function(){
 	$(".main_center_wrap img").click(function(e){
 		
 		location.href="/member/loginPage";
+		
+	});
+	
+	$(".main_center_wrap div span").mouseenter(function(e){
+		
+		$(".main_modal_wrap").css("display","block")
+		
+	});
+	
+	$(".main_center_wrap div span").mouseleave(function(e){
+		
+		$(".main_modal_wrap").css("display","none")
 		
 	});
 });
@@ -83,8 +142,22 @@ $(function(){
 	</div>
 	<div class = "main_center_wrap">
 		<img  th:src ="@{/images/arrow.png}">
+		<div>
+			<span>우리 앱은?</span>
+		</div>
 	</div>
-	
+	<div class = "main_modal_wrap">
+		<div class = "main_modal_contents">
+			<p> 한자는 반복학습이 중요합니다!  </p>
+			<p> 하지만, 반복학습을 할 수 있는 기능이 있는 앱은 찾기 힘들었어요. </p>
+			<p> 그래서 상용한자를 공부할 때, 항상 메모장에 언제 공부했는지 체크를 했었죠. </p>
+			<p> 반복 ! 상용한자 2136 ! 이 앱은 이 가려운 부분을 긁어줄 것이라 생각합니다. </p>
+			<p> 먼저, 코스를 선택하시면 2136개의 한자를 알맞게 나눠줍니다.</p>
+			<p> 그리고 공부를하고 테스트를 완료 하면, 에빙하우스의 망각곡선 이론을 참조한 </p>
+			<p> 1일, 7일 , 14일 , 30일의 복습주기를 사용하여 표시해줍니다. </p>
+			<p> 앱을 사용하는 이순간부터 당신은 한자에 자신이 생길겁니다! 화이팅! </p>
+		</div>	
+	</div>
 	
 </main>
 </body>
