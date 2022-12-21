@@ -5,10 +5,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
 
 import org.kanji.complete.entity.Complete;
 import org.kanji.complete.service.CompleteServiceImpl;
@@ -18,7 +15,6 @@ import org.kanji.favorites.entity.Favorites;
 import org.kanji.favorites.service.FavoritesServiceImpl;
 import org.kanji.kanji.entity.Kanji;
 import org.kanji.kanji.service.KanjiServiceImpl;
-import org.kanji.member.entity.Member;
 import org.kanji.security.auth.PrincipalDetails;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -63,7 +59,7 @@ public class KanjiController {
 		for (int i = 1; i<= current_course.get().getCoursePeriod(); i++) {
 			
 			course_period.add(i);
-			course_message.add("테스트 미완료");	
+			course_message.add("처음이에요");	
 			
 		}
 		
@@ -82,32 +78,32 @@ public class KanjiController {
 				
 					case 0 : comDate.add(Calendar.DATE, 1);
 							 if(curDate.after(comDate)) {
-								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습기간도래");
+								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습해야해요 (1일)");
 							 }else {
-								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "테스트 완료(복습기간미도래)");
+								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "공부 완료 !");
 							 }
 							 break;
 					case 1 : comDate.add(Calendar.DATE, 7);
 							 if(curDate.after(comDate)) {
-								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습기간도래");
+								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습해야해요 (7일)");
 							 }else {
-								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "테스트 완료(복습기간미도래)");
+								 course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "공부 완료 !");
 							 }
 							 break;
 					
 					case 2 : comDate.add(Calendar.DATE, 14);
 					 		if(curDate.after(comDate)) {
-					 			course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습기간도래");
+					 			course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습해야해요 (14일)");
 					 		}else {
-					 			course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "테스트 완료(복습기간미도래)");
+					 			course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "공부 완료 !");
 					 		}
 					 		break;
 							
 					default : comDate.add(Calendar.DATE, 30);
 							if(curDate.after(comDate)) {
-								course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습기간도래");
+								course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "복습해야해요 (30일)");
 							}else {
-								course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "테스트 완료(복습기간미도래)");
+								course_message.set(tempComplete.get().get(i).getCompletePassed()-1, "공부 완료 !");
 							}
 							
 							break;	
