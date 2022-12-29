@@ -17,12 +17,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class SocialAccessTokenURL {
 	
-	private String N_CLIENT_ID = "APU1t3m4Obdif6jYJRSR";
-	private String N_CLI_SECRET = "j1QvEmBdBb";
-	private String G_CLIENT_ID = "866792557950-qkcmi3hr3bop38te6t6erivdhud0ov39.apps.googleusercontent.com";
-	private String G_CLI_SECRET = "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";
-	private String K_CLIENT_ID = "5af9654538cb7e4fb7145ffb2389bc71";
-	private String K_CLI_SECRET = "EtT52bLhgw9UfPOqfDrXCHzza8YIXikY";
+	private String N_CLIENT_ID = "";
+	private String N_CLI_SECRET = "";
+	private String G_CLIENT_ID = "";
+	private String G_CLI_SECRET = "";
+	private String K_CLIENT_ID = "";
+	private String K_CLI_SECRET = "";
 		
 	public JSONObject getAccessTokenJSONObject(String social, String code, String state) throws Exception {
 		

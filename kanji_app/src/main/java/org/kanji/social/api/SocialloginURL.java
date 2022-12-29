@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SocialloginURL {
-	private String N_CLIENT_ID = "APU1t3m4Obdif6jYJRSR";
-	private String G_CLIENT_ID = "866792557950-qkcmi3hr3bop38te6t6erivdhud0ov39.apps.googleusercontent.com";
-	private String K_CLIENT_ID = "5af9654538cb7e4fb7145ffb2389bc71";
+	private String N_CLIENT_ID = "";
+	private String G_CLIENT_ID = "";
+	private String K_CLIENT_ID = "";
 	
 	//로그인 페이지 구성
 	public String getLoginPageURL(String social,String state) throws UnsupportedEncodingException {

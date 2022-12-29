@@ -38,14 +38,6 @@ class KanjiControllerTest {
 		principalDetails = (PrincipalDetails) testService.loadUserByUsername("아무거나");
 	}
 	
-	@Test
-	void listSelect2_sessionNull() throws Exception {
-		Member member = mRepo.findAll().get(0);
 
-		PrincipalDetails prin = new PrincipalDetails(member);
-		
-		mockMvc.perform(get("/kanji/listSelect2").with(principalDetails))
-		.andExpect(status().isOk());
-	}
 
 }
